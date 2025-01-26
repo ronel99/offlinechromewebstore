@@ -1,0 +1,62 @@
+Create a simple offline Chrome Web Store website using HTML, CSS, and JavaScript. The website should:
+
+Display Extensions:
+
+Load extension data from a JSON file containing the following fields for each extension:
+id: A unique identifier for the extension.
+name: The name of the extension.
+description: A short description of the extension.
+version: The version of the extension.
+author: The author's name or organization.
+iconUrl: A URL or relative path to the extension's icon image.
+downloadUrl: A URL or relative path to download the extension's .crx file.
+rating: The average user rating (1-5).
+Extension Cards:
+
+Display each extension as a card with the following details:
+Icon image.
+Name.
+Description (limited to 100 characters with a "Read more" option).
+Version.
+Author.
+Average rating (displayed as stars).
+A "Download" button linked to the downloadUrl.
+Search and Filter:
+
+Include a search bar to filter extensions by name or description.
+Add a filter dropdown to sort by rating or author.
+Styling:
+
+Use clean and modern CSS styling.
+Ensure the layout is responsive for desktop and mobile devices.
+Functionality:
+
+Use vanilla JavaScript to fetch the JSON data and render the cards dynamically.
+Handle edge cases such as missing fields or icons.
+Here’s a sample JSON structure for testing:
+
+json
+Copy
+Edit
+[
+  {
+    "id": "1",
+    "name": "AdBlocker Pro",
+    "description": "Blocks annoying ads and popups.",
+    "version": "2.1.0",
+    "author": "AdTools Inc.",
+    "iconUrl": "icons/adblocker.png",
+    "downloadUrl": "extensions/adblocker.crx",
+    "rating": 4.5
+  },
+  {
+    "id": "2",
+    "name": "Dark Mode Everywhere",
+    "description": "Enable dark mode on all websites with a single click.",
+    "version": "1.3.2",
+    "author": "Night Developers",
+    "iconUrl": "icons/darkmode.png",
+    "downloadUrl": "extensions/darkmode.crx",
+    "rating": 4.8
+  }
+]

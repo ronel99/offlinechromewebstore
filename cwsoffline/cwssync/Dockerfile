@@ -5,7 +5,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY extension_sync.py .
-COPY recommended_extensions.json .
+COPY cwsoffline/cwssync/extension_sync.py .
+COPY cwsoffline/cwssync/recommended_extensions.json .
 
 CMD ["python", "extension_sync.py"]

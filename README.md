@@ -78,10 +78,16 @@ On the non-Internet connected system:
 #### How to run
 ```bash
 # Build the Docker image
-docker build -t cwssync -f cwsoffline/cwssync/Dockerfile
+docker build -t cwssync -f cwsoffline/cwssync/Dockerfile .
 
 # Run the container
-docker run -v $(pwd)/artifacts:/app/artifacts cwssync
+docker run -it -v $(pwd)/artifacts:/app/artifacts cwssync
+
+# Remove cwssync exited and running images
+docker ps -a | grep cwssync | awk '{print $1}' | xargs docker rm -f
+
+# Remove artifacts folder after using docker
+sudo rm -rf artifacts
 ```
 
 #### Configure GPO

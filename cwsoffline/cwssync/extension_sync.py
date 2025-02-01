@@ -36,10 +36,10 @@ class ChromeExtensionSync:
             response = requests.get(self.chrome_store_url, params=params, stream=True)
             
             if response.status_code == 200:
-                artifact_dir = os.path.join('artifacts', extension_id, version)
+                artifact_dir = os.path.join('artifacts','extensions', extension_id, version)
                 if not os.path.exists(artifact_dir):
                     os.makedirs(artifact_dir)
-                    
+                extension_name = extension_name.replace(' ', '-')
                 file_path = os.path.join(artifact_dir, f'{extension_id}_{extension_name}_{version}.crx')
                 with open(file_path, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ extension.name }} - Offline Chrome Web Store</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{ extension.name }}</h1>
+        </header>
+        <main>
+            <section class="extension-details">
+                <p><strong>Description:</strong> {{ extension.description }}</p>
+                <p><strong>Version:</strong> {{ extension.version }}</p>
+                <p><strong>Publisher:</strong> {{ extension.publisher }}</p>
+                <a href="{{ url_for('download_extension', extension_id=extension.extension_id) }}" class="download-button">Download CRX</a>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; {{ current_year }} Offline Chrome Web Store</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', path='js/scripts.js') }}"></script>
+</body>
+</html>

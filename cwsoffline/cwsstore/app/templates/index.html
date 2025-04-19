@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Offline Chrome Web Store</title>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Offline Chrome Web Store</h1>
+    </header>
+    <main>
+        <section class="extensions">
+            {% if extensions %}
+                {% for extension in extensions %}
+                <div class="extension-card">
+                    <img src="{{ extension.iconUrl }}" alt="{{ extension.name }}" class="extension-icon">
+                    <h2>{{ extension.name }}</h2>
+                    <p>{{ extension.description }}</p>
+                    <p><strong>Version:</strong> {{ extension.version }}</p>
+                    <p><strong>Author:</strong> {{ extension.author }}</p>
+                    <p><strong>Rating:</strong> {{ extension.rating }} ⭐</p>
+                    <a href="{{ extension.downloadUrl }}" class="download-button">Download</a>
+                </div>
+                {% endfor %}
+            {% else %}
+                <p>No extensions available.</p>
+            {% endif %}
+        </section>
+    </main>
+</body>
+</html>

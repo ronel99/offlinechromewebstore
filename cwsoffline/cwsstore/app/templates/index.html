@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,26 +8,74 @@
 </head>
 <body>
     <header>
+        <button class="theme-switch" id="themeToggle">🌓</button>
         <h1>Offline Chrome Web Store</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search extensions...">
+        </div>
     </header>
     <main>
-        <section class="extensions">
+        <div class="extensions-container">
             {% if extensions %}
-                {% for extension in extensions %}
-                <div class="extension-card">
-                    <img src="{{ extension.iconUrl }}" alt="{{ extension.name }}" class="extension-icon">
-                    <h2>{{ extension.name }}</h2>
-                    <p>{{ extension.description }}</p>
-                    <p><strong>Version:</strong> {{ extension.version }}</p>
-                    <p><strong>Author:</strong> {{ extension.author }}</p>
-                    <p><strong>Rating:</strong> {{ extension.rating }} ⭐</p>
-                    <a href="{{ extension.downloadUrl }}" class="download-button">Download</a>
+                <div class="extensions-grid">
+                    {% for extension in extensions %}
+                    <div class="extension-card" data-name="{{ extension.name.lower() }}" data-description="{{ extension.description.lower() }}">
+                        <div class="extension-icon-wrapper">
+                            <img src="{{ extension.iconUrl }}" alt="{{ extension.name }}" class="extension-icon">
+                        </div>
+                        <div class="extension-details">
+                            <h2 class="extension-name">{{ extension.name }}</h2>
+                            <p class="extension-description">{{ extension.description }}</p>
+                            <div class="extension-meta">
+                                <span class="version">v{{ extension.version }}</span>
+                                <span class="rating">{{ "★" * ((extension.rating|float)|round|int) }}</span>
+                            </div>
+                            <a href="{{ extension.downloadUrl }}" class="download-button">Download</a>
+                        </div>
+                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             {% else %}
-                <p>No extensions available.</p>
+                <p class="no-extensions">No extensions available.</p>
             {% endif %}
-        </section>
+        </div>
     </main>
+    <footer>
+        <p>&copy; {{ current_year }} Offline Chrome Web Store | <a href="https://github.com/ronel99/offlinechromewebstore">GitHub</a></p>
+    </footer>
+
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const html = document.documentElement;
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme') || 'light';
+        html.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+
+        // Search Functionality
+        const searchInput = document.getElementById('searchInput');
+        const extensionCards = document.querySelectorAll('.extension-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            
+            extensionCards.forEach(card => {
+                const name = card.getAttribute('data-name');
+                const description = card.getAttribute('data-description');
+                const shouldShow = name.includes(searchTerm) || description.includes(searchTerm);
+                
+                card.style.display = shouldShow ? 'flex' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>

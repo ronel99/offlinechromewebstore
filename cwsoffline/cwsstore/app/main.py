@@ -5,6 +5,7 @@ from fastapi.responses import HTMLResponse
 from fastapi import Request
 import os
 import json
+from datetime import datetime
 
 app = FastAPI()
 
@@ -20,8 +21,19 @@ app.include_router(extensions_router)
 async def read_root(request: Request):
     """Render the homepage with a list of extensions."""
     extensions_file = os.path.join("app/static/extensions_info.json")
+    current_year = datetime.now().year
+    
     if os.path.exists(extensions_file):
         with open(extensions_file, "r") as file:
             extensions = json.load(file)
-        return templates.TemplateResponse("index.html", {"request": request, "extensions": extensions})
-    return templates.TemplateResponse("index.html", {"request": request, "extensions": []})
+        print(current_year)
+        return templates.TemplateResponse("index.html", {
+            "request": request, 
+            "extensions": extensions,
+            "current_year": current_year
+        })
+    return templates.TemplateResponse("index.html", {
+        "request": request, 
+        "extensions": [],
+        "current_year": current_year
+    })

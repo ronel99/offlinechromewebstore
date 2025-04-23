@@ -1,0 +1,225 @@
+:root {
+    --bg-color: #f5f5f5;
+    --text-color: #202124;
+    --card-bg: #ffffff;
+    --header-bg: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --secondary-text: #5f6368;
+    --button-bg: #1a73e8;
+    --button-hover: #1557b0;
+}
+
+[data-theme="dark"] {
+    --bg-color: #202124;
+    --text-color: #ffffff;
+    --card-bg: #292a2d;
+    --header-bg: #292a2d;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    --secondary-text: #9aa0a6;
+    --button-bg: #8ab4f8;
+    --button-hover: #93b7f8;
+}
+
+body {
+    margin: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    /* Add this to ensure proper scrolling behavior */
+    overflow-y: auto;
+}
+
+header {
+    background-color: var(--header-bg);
+    padding: 1rem 2rem;
+    box-shadow: 0 2px 4px var(--shadow-color);
+    position: fixed; /* Change from sticky to fixed */
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.favicon {
+    height: 32px;
+    width: 32px;
+}
+
+.theme-switch {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 50%;
+    background: var(--card-bg);
+    border: 1px solid var(--secondary-text);
+}
+
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 1px solid #dfe1e5;
+    border-radius: 24px;
+    font-size: 1rem;
+    outline: none;
+}
+
+#searchInput:focus {
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+    border-color: rgba(223,225,229,0);
+}
+
+main {
+    /* Add padding to prevent content from going under header */
+    padding-top: 120px; /* Adjust this value based on your header height */
+    /* Add padding to prevent content from going under footer */
+    padding-bottom: 80px; /* Adjust this value based on your footer height */
+    flex: 1;
+}
+
+.extensions-container {
+    max-width: 1200px;
+    margin: 0 auto; /* Change from 2rem auto to 0 auto */
+    padding: 0 1rem;
+}
+
+.extensions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.extension-card {
+    background: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 2px var(--shadow-color);
+    transition: box-shadow 0.3s ease;
+    overflow: hidden;
+    display: flex;
+    padding: 1rem;
+}
+
+.extension-card:hover {
+    box-shadow: 0 4px 8px var(--shadow-color);
+}
+
+.extension-icon-wrapper {
+    margin-right: 1rem;
+    display: flex;
+    align-items: flex-start;
+}
+
+.extension-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.extension-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.extension-name {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+}
+
+.extension-description {
+    font-size: 0.875rem;
+    color: var(--secondary-text);
+    margin: 0 0 1rem 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.extension-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: var(--secondary-text);
+}
+
+.rating {
+    color: #ffd700;
+}
+
+.download-button {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background-color: var(--button-bg);
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-weight: 500;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.download-button:hover {
+    background-color: var(--button-hover);
+}
+
+.no-extensions {
+    text-align: center;
+    color: var(--secondary-text);
+    padding: 2rem;
+}
+
+footer {
+    background-color: var(--header-bg);
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 -2px 4px var(--shadow-color);
+    position: fixed; /* Make footer fixed */
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+footer p {
+    margin: 0;
+    color: var(--secondary-text);
+}
+
+@media (max-width: 768px) {
+    .extensions-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+}
+
+@media (max-width: 480px) {
+    .extensions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    header {
+        padding: 1rem;
+    }
+}

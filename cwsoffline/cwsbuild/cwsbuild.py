@@ -10,6 +10,8 @@ def extract_crx_files(src_folder, dest_folder):
             if file.endswith('.crx'):
                 crx_path = os.path.join(root, file)
                 extension_id = os.path.splitext(file)[0]
+                print(f"dest_path: {dest_folder}")
+                print(f"extension_id: {extension_id}")
                 dest_path = os.path.join(dest_folder, extension_id)
                 os.makedirs(dest_path, exist_ok=True)
 
@@ -22,14 +24,16 @@ def extract_crx_files(src_folder, dest_folder):
                         manifest_data = json.load(manifest_file)
                         ext_name = manifest_data.get('name', '')
                         ext_name = manifest_data.get('action', {}).get('default_title','') if '_' in ext_name else ext_name
+                        ext_name = extension_id.split('_')[1] if ext_name == "" else ext_name
+                        print(manifest_data.get('icons', {}).get('128', ''))
                         extension_info = {
                             'name': ext_name,
                             #'name': manifest_data.get('action', {}).get('default_title',''),
                             #'name': manifest_data.get('name', ''),
-                            'extension_id': extension_id,
+                            'extension_id': extension_id.split('_')[0],
                             #'description': manifest_data.get('description', ''),
                             'description': manifest_data.get('description', '') if '_' not in manifest_data.get('description', '') else '',
-                            'image_path_url': os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '')),
+                            'image_path_url': os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '').lstrip('/')),
                             'versions': [{'version': manifest_data.get('version', ''), 'path_url': crx_path}]
                         }
                         extensions_info.append(extension_info)

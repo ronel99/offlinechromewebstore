@@ -92,6 +92,12 @@ docker build -t cwssync -f cwsoffline/cwssync/Dockerfile .
 
 # Run the container
 docker run -it -v $(pwd)/artifacts:/app/artifacts cwssync
+
+# Run cwsbuild
+docker run -it -v $(pwd)/artifacts:/app/artifacts -v $(pwd)/assets:/app/assets cwsbuild
+
+# Run cwsstore
+docker run -it -v $(pwd)/artifacts:/store/artifacts -v $(pwd)/assets:/store/assets -p 8005:8005 cwsstore
 ```
 
 #### Cleanup

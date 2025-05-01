@@ -113,7 +113,7 @@ main {
 
 .extensions-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(3, 1fr); /* Set to 3 extensions per row */
     gap: 1rem;
     padding: 1rem;
 }
@@ -126,6 +126,7 @@ main {
     overflow: hidden;
     display: flex;
     padding: 1rem;
+    position: relative; /* Add this to position the button */
 }
 
 .extension-card:hover {
@@ -151,17 +152,17 @@ main {
 }
 
 .extension-name {
-    font-size: 1.1rem;
-    font-weight: 500;
+    font-size: 1.25rem; /* Increase font size */
+    font-weight: 600; /* Make it bolder */
     margin: 0 0 0.5rem 0;
     color: var(--text-color);
 }
 
 .extension-description {
-    font-size: 0.875rem;
-    color: var(--secondary-text);
+    font-size: 1rem; /* Increase font size */
+    line-height: 1.6; /* Improve readability */
+    color: var(--text-color); /* Make it more visible */
     margin: 0 0 1rem 0;
-    line-height: 1.4;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -182,8 +183,10 @@ main {
 }
 
 .download-button {
-    display: inline-block;
-    padding: 0.5rem 1rem;
+    position: absolute; /* Anchor to bottom-right */
+    bottom: 1rem;
+    right: 1rem;
+    padding: 0.6rem 1.2rem; /* Slightly larger padding */
     background-color: var(--button-bg);
     color: white;
     text-decoration: none;
@@ -191,6 +194,8 @@ main {
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s ease;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 .download-button:hover {

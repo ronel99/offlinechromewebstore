@@ -75,6 +75,16 @@ On the non-Internet connected system:
 4. Open Chrome, hopefully you can magically install extensions. The Help > Developer Tools > Network should tell you what is going on.
 
 
+#### How to build
+```bash
+# build cwssync
+docker build -t cwssync -f cwsoffline/cwssync/Dockerfile .
+# build cwsbuild
+docker build -t cwsbuild -f cwsoffline/cwsbuild/Dockerfile .
+# build cwsstore
+docker build -t cwsstore -f cwsoffline/cwsstore/Dockerfile ./cwsoffline/cwsstore/
+```
+
 #### How to run
 ```bash
 # Build the Docker image
@@ -82,9 +92,12 @@ docker build -t cwssync -f cwsoffline/cwssync/Dockerfile .
 
 # Run the container
 docker run -it -v $(pwd)/artifacts:/app/artifacts cwssync
+```
 
+#### Cleanup
+``` bash
 # Remove cwssync exited and running images
-docker ps -a | grep cwssync | awk '{print $1}' | xargs docker rm -f
+docker ps -a | grep -E ^cws | awk '{print $1}' | xargs docker rm -f
 
 # Remove artifacts folder after using docker
 sudo rm -rf artifacts

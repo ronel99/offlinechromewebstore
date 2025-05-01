@@ -28,16 +28,16 @@
                     {% for extension in extensions %}
                     <div class="extension-card" data-name="{{ extension.name.lower() }}" data-description="{{ extension.description.lower() }}">
                         <div class="extension-icon-wrapper">
-                            <img src="{{ extension.iconUrl }}" alt="{{ extension.name }}" class="extension-icon">
+                            <img src="{{ extension.image_path_url }}" alt="{{ extension.name }}" class="extension-icon">
                         </div>
                         <div class="extension-details">
                             <h2 class="extension-name">{{ extension.name }}</h2>
+                            <p class="extension-description">{{ extension.extension_id }}</p>
                             <p class="extension-description">{{ extension.description }}</p>
                             <div class="extension-meta">
-                                <span class="version">v{{ extension.version }}</span>
-                                <span class="rating">{{ "★" * ((extension.rating|float)|round|int) }}</span>
+                                <span class="version">v{{ extension.versions[0].version }}</span>                                
                             </div>
-                            <a href="{{ extension.downloadUrl }}" class="download-button">Install</a>
+                            <a href="{{ extension.versions[0].path_url }}" class="download-button">Install</a>
                         </div>
                     </div>
                     {% endfor %}

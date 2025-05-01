@@ -12,6 +12,9 @@ app = FastAPI()
 # Set up templates and static files
 templates = Jinja2Templates(directory="app/templates")
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
+app.mount("/assets", StaticFiles(directory="assets"), name="assets")
+app.mount("/artifacts", StaticFiles(directory="artifacts"), name="artifacts")
+
 
 # Include routes
 from app.routes.extensions import router as extensions_router
@@ -20,7 +23,7 @@ app.include_router(extensions_router)
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     """Render the homepage with a list of extensions."""
-    extensions_file = os.path.join("app/static/extensions_info.json")
+    extensions_file = os.path.join("/artifacts/extensions_info.json")
     current_year = datetime.now().year
     
     if os.path.exists(extensions_file):

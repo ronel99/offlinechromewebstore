@@ -8,7 +8,11 @@ router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
 # Path to the extensions JSON file
-EXTENSIONS_FILE = os.path.join(os.path.dirname(__file__), "../static/extensions_info.json")
+#EXTENSIONS_FILE = os.path.join(os.path.dirname(__file__), "../artifacts/extensions_info.json")
+EXTENSIONS_FILE = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), "../../artifacts/extensions_info.json")
+)
+
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
@@ -17,7 +21,7 @@ async def read_root(request: Request):
         with open(EXTENSIONS_FILE, "r") as file:
             extensions = json.load(file)
         return templates.TemplateResponse("index.html", {"request": request, "extensions": extensions})
-    return JSONResponse(content={"error": "Extensions file not found"}, status_code=404)
+    return JSONResponse(content={"error": f"Extensions file not found {EXTENSIONS_FILE}"}, status_code=404)
 
 @router.get("/{extension_id}", response_class=HTMLResponse)
 async def get_extension(request: Request, extension_id: str):

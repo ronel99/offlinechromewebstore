@@ -20,10 +20,15 @@ def extract_crx_files(src_folder, dest_folder):
                 if os.path.exists(manifest_path):
                     with open(manifest_path, 'r') as manifest_file:
                         manifest_data = json.load(manifest_file)
+                        ext_name = manifest_data.get('name', '')
+                        ext_name = manifest_data.get('action', {}).get('default_title','') if '_' in ext_name else ext_name
                         extension_info = {
-                            'name': manifest_data.get('name', ''),
+                            'name': ext_name,
+                            #'name': manifest_data.get('action', {}).get('default_title',''),
+                            #'name': manifest_data.get('name', ''),
                             'extension_id': extension_id,
-                            'description': manifest_data.get('description', ''),
+                            #'description': manifest_data.get('description', ''),
+                            'description': manifest_data.get('description', '') if '_' not in manifest_data.get('description', '') else '',
                             'image_path_url': os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '')),
                             'versions': [{'version': manifest_data.get('version', ''), 'path_url': crx_path}]
                         }
@@ -36,9 +41,10 @@ def save_extensions_info(extensions_info, output_file):
         json.dump(extensions_info, json_file, indent=4)
 
 if __name__ == "__main__":
+    artifacts_folder = 'artifacts'
     src_folder = 'artifacts/extensions'
     dest_folder = 'assets'
     output_file = 'extensions_info.json'
 
     extensions_info = extract_crx_files(src_folder, dest_folder)
-    save_extensions_info(extensions_info, output_file)
+    save_extensions_info(extensions_info, os.path.join(artifacts_folder,output_file))

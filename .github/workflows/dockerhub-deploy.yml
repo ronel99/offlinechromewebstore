@@ -39,6 +39,10 @@ jobs:
       id: get_version
       uses: battila7/get-version-action@v2
 
+    - name: Debug version
+      run: |
+        echo "Version is: ${{ steps.get_version.outputs.version-without-v }}"
+    
     - name: Build and push cwssync
       uses: docker/build-push-action@v6
       with:

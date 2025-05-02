@@ -1,4 +1,4 @@
-name: Docker Hub Deployment
+name: CI for Docker Hub
 
 on:
   push:
@@ -19,13 +19,17 @@ jobs:
         BUILD_NUMBER=$(date +%Y%m%d%H%M%S)
         echo "BUILD_NUMBER=$BUILD_NUMBER" >> $GITHUB_ENV
         echo "VERSION=$BUILD_NUMBER" >> $GITHUB_ENV
-        echo "Generated version: $BUILD_NUMBER"
+        echo "Generated version: $BUILD_NUMBER"    
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
       with:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_TOKEN }}
+    
+    - name: Get version
+      id: get_version
+      uses: battila7/get-version-action@v2
 
     - name: Build and push cwssync
       uses: docker/build-push-action@v4
@@ -35,7 +39,7 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:${{ env.VERSION }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:$${{ steps.get_version.outputs.version-without-v }}
 
     - name: Build and push cwsbuild
       uses: docker/build-push-action@v4
@@ -45,7 +49,7 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/cwsbuild:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/cwsbuild:${{ env.VERSION }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/cwsbuild:${{ steps.get_version.outputs.version-without-v }}}
 
     - name: Build and push cwsstore
       uses: docker/build-push-action@v4
@@ -55,4 +59,4 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/cwsstore:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/cwsstore:${{ env.VERSION }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/cwsstore:${{ steps.get_version.outputs.version-without-v }}

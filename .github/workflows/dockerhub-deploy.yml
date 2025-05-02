@@ -38,7 +38,7 @@ jobs:
       uses: battila7/get-version-action@v2
 
     - name: Build and push cwssync
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: ./cwsoffline/cwssync/Dockerfile
@@ -48,7 +48,7 @@ jobs:
           ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:$${{ steps.get_version.outputs.version-without-v }}
 
     - name: Build and push cwsbuild
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v6
       with:
         context: .
         file: ./cwsoffline/cwsbuild/Dockerfile
@@ -58,7 +58,7 @@ jobs:
           ${{ secrets.DOCKERHUB_USERNAME }}/cwsbuild:${{ steps.get_version.outputs.version-without-v }}}
 
     - name: Build and push cwsstore
-      uses: docker/build-push-action@v4
+      uses: docker/build-push-action@v6
       with:
         context: ./cwsoffline/cwsstore
         file: ./cwsoffline/cwsstore/Dockerfile

@@ -1,1 +1,0 @@
-write a prompt for bolt.new to write a offline chrome web store website get his extension to display from a json file, make sure to include all neccesary fields in the box of each extension and a button for extension download

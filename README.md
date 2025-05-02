@@ -31,6 +31,7 @@ Possible TODO List:
 * - [ ] ExtensionTotal get malicious extensions
 * - [X] crx expand and create json job for cwsstore
 * - [ ] add helm (kubernetes) support
+* - [ ] fix extension container properties alignments
 
 ## Requirements
 * Docker (ideally with docker-compose for simplicity)

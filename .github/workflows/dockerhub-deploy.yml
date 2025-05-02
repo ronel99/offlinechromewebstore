@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main # Trigger on pushes to the main branch
+  release:
+    types: [edited, released]
 
 jobs:
   build-and-push:

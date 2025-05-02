@@ -30,7 +30,7 @@ jobs:
     - name: Build and push cwssync
       uses: docker/build-push-action@v4
       with:
-        context: ./cwsoffline/cwssync
+        context: .
         file: ./cwsoffline/cwssync/Dockerfile
         push: true
         tags: |
@@ -40,7 +40,7 @@ jobs:
     - name: Build and push cwsbuild
       uses: docker/build-push-action@v4
       with:
-        context: ./cwsoffline/cwsbuild
+        context: .
         file: ./cwsoffline/cwsbuild/Dockerfile
         push: true
         tags: |

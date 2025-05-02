@@ -13,11 +13,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Get version
+    - name: Generate version
       id: versioning
-      uses: einaregilsson/build-number@v2
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        echo "BUILD_NUMBER=$(date +%Y%m%d%H%M%S)" >> $GITHUB_ENV
+        echo "VERSION=v1.$BUILD_NUMBER" >> $GITHUB_ENV
 
     - name: Log in to Docker Hub
       uses: docker/login-action@v2
@@ -33,4 +33,4 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKER_USERNAME }}/cwsstore:latest
-          ${{ secrets.DOCKER_USERNAME }}/cwsstore:${{ steps.versioning.outputs.build_number }}
+          ${{ secrets.DOCKER_USERNAME }}/cwsstore:${{ env.VERSION }}

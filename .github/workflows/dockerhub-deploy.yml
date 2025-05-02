@@ -47,7 +47,7 @@ jobs:
         push: true
         tags: |
           ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:latest
-          ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:$${{ steps.get_version.outputs.version-without-v }}
+          ${{ secrets.DOCKERHUB_USERNAME }}/cwssync:${{ steps.get_version.outputs.version-without-v }}
 
     - name: Build and push cwsbuild
       uses: docker/build-push-action@v6

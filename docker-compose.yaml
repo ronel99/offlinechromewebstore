@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  cwssync:
+    build:
+      context: .
+      dockerfile: cwsoffline/cwssync/Dockerfile
+    image: cwssync
+    volumes:
+      - ./artifacts:/app/artifacts
+    stdin_open: true
+    tty: true
+
+  cwsbuild:
+    build:
+      context: .
+      dockerfile: cwsoffline/cwsbuild/Dockerfile
+    image: cwsbuild
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./assets:/app/assets
+    stdin_open: true
+    tty: true
+
+  cwsstore:
+    build:
+      context: ./cwsoffline/cwsstore
+      dockerfile: ./Dockerfile
+    image: cwsstore
+    volumes:
+      - ./artifacts:/store/artifacts
+      - ./assets:/store/assets
+    ports:
+      - "8005:8005"
+    stdin_open: true
+    tty: true

@@ -29,7 +29,7 @@ On the non-Internet connected system, **cwsbuild**:
 Possible TODO List:
 * - [ ] Add test cases.
 * - [ ] ExtensionTotal get malicious extensions
-* - [ ] crx expand and create json job for cwsserver
+* - [X] crx expand and create json job for cwsstore
 * - [ ] add helm (kubernetes) support
 
 ## Requirements
@@ -43,17 +43,12 @@ On the Internet connected system:
 
 1. Acquire/mirror the Docker containers (cwssync/cwsbuild/cwsstore). 
 
-    <pre><p style="color:Red;">TO-DO
-
     `docker-compose pull`
-
-    </p>
-    </pre>
-
+    
 2. Setup and run the cwssync service on the Internet connected system.
     * Ensuring the artifact directory is accessible to whatever transfer mechanism you will use and cwssync.
     * Run cwssync service and ensure the artifacts are generated.
-    * Wait for the sync to complete. You should see 'Complete' and that it is sleeping when the artifacts have finished downloading.
+    * Wait for the sync to complete. You should see 'Sync completed' and that it is sleeping when the artifacts have finished downloading.
 
     `docker-compose up cwssync`
 
@@ -74,6 +69,12 @@ On the non-Internet connected system:
 
 4. Open Chrome, hopefully you can magically install extensions. The Help > Developer Tools > Network should tell you what is going on.
 
+#### Run with docker-compose
+``` bash
+docker-compose build
+docker-compose run cwssync
+docker-compose up -d cwsbuild cwsstore
+```
 
 #### How to build
 ```bash
@@ -85,11 +86,8 @@ docker build -t cwsbuild -f cwsoffline/cwsbuild/Dockerfile .
 docker build -t cwsstore -f cwsoffline/cwsstore/Dockerfile ./cwsoffline/cwsstore/
 ```
 
-#### How to run
+#### How to run with docker
 ```bash
-# Build the Docker image
-docker build -t cwssync -f cwsoffline/cwssync/Dockerfile .
-
 # Run the container
 docker run -it -v $(pwd)/artifacts:/app/artifacts cwssync
 

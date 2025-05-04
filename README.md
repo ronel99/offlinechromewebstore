@@ -66,9 +66,7 @@ On the non-Internet connected system:
 
     `docker-compose up cwsstore`
 
-3. Using Chrome/Firefox navigate to https://update.code.visualstudio.com. You should not see any certificate warnings, if you do it's unlikely to work in.
-
-4. Open Chrome, hopefully you can magically install extensions. The Help > Developer Tools > Network should tell you what is going on.
+3. Open Chrome, hopefully you can magically install extensions. The Help > Developer Tools > Network should tell you what is going on.
 
 #### Run with docker-compose
 ``` bash

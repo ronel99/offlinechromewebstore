@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  cwssync:
+    image: ronel99/cwssync
+    volumes:
+      - ./artifacts:/app/artifacts
+    stdin_open: true
+    tty: true
+
+  cwsbuild:
+    image: ronel99/cwsbuild
+    volumes:
+      - ./artifacts:/app/artifacts
+      - ./assets:/app/assets
+    stdin_open: true
+    tty: true
+
+  cwsstore:
+    image: ronel99/cwsstore
+    volumes:
+      - ./artifacts:/store/artifacts
+      - ./assets:/store/assets
+    ports:
+      - "8005:8005"
+    stdin_open: true
+    tty: true

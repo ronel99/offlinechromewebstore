@@ -1,4 +1,4 @@
-name: docker-cicd
+name: docker-cicd-workflow
 
 
 on:

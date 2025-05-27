@@ -13,6 +13,13 @@ EXTENSIONS_FILE = os.path.abspath(
     os.path.join(os.path.dirname(__file__), "../../artifacts/extensions_info.json")
 )
 
+@router.get("/crx", response_class=FileResponse)
+async def serve_extensions_info_xml():
+    """Serve the extensions_info.xml file."""
+    xml_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../artifacts/extensions_info.xml"))
+    if os.path.exists(xml_file_path):
+        return FileResponse(xml_file_path, media_type="application/xml")
+    return JSONResponse(content={"error": "extensions_info.xml not found"}, status_code=404)
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):

@@ -1,6 +1,7 @@
 import os
 import json
 import zipfile
+import xml.etree.ElementTree as ET
 
 def extract_crx_files(src_folder, dest_folder):
     extensions_info = []
@@ -10,7 +11,6 @@ def extract_crx_files(src_folder, dest_folder):
             if file.endswith('.crx'):
                 crx_path = os.path.join(root, file)
                 extension_id = os.path.splitext(file)[0]
-                print(f"dest_path: {dest_folder}")
                 print(f"extension_id: {extension_id}")
                 dest_path = os.path.join(dest_folder, extension_id)
                 os.makedirs(dest_path, exist_ok=True)
@@ -27,6 +27,8 @@ def extract_crx_files(src_folder, dest_folder):
                         ext_name = extension_id.split('_')[1] if ext_name == "" else ext_name
                         #print(manifest_data.get('icons', {}).get('128', ''))
                         image = os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '').lstrip('/')) if manifest_data.get('icons', {}).get('128', '') != "" else os.path.join(dest_path, "icon.png")  
+                        print(f"image_path: {image}")
+
                         extension_info = {
                             'name': ext_name,
                             #'name': manifest_data.get('action', {}).get('default_title',''),
@@ -45,11 +47,26 @@ def save_extensions_info(extensions_info, output_file):
     with open(output_file, 'w') as json_file:
         json.dump(extensions_info, json_file, indent=4)
 
+def save_extensions_info_as_xml(extensions_info, output_file):
+    root = ET.Element("gupdate", xmlns="http://www.google.com/update2/response", protocol="2.0")
+    
+    for extension in extensions_info:
+        app = ET.SubElement(root, "app", appid=extension['extension_id'])
+        updatecheck = ET.SubElement(app, "updatecheck", 
+                                     codebase=extension['versions'][0]['path_url'], 
+                                     version=extension['versions'][0]['version'])
+    
+    tree = ET.ElementTree(root)
+    with open(output_file, "wb") as xml_file:
+        tree.write(xml_file, encoding="UTF-8", xml_declaration=True)
+
 if __name__ == "__main__":
     artifacts_folder = 'artifacts'
     src_folder = 'artifacts/extensions'
     dest_folder = 'assets'
-    output_file = 'extensions_info.json'
+    output_json_file = 'extensions_info.json'
+    output_xml_file = 'extensions_info.xml'
 
     extensions_info = extract_crx_files(src_folder, dest_folder)
-    save_extensions_info(extensions_info, os.path.join(artifacts_folder,output_file))
+    save_extensions_info(extensions_info, os.path.join(artifacts_folder, output_json_file))
+    save_extensions_info_as_xml(extensions_info, os.path.join(artifacts_folder, output_xml_file))

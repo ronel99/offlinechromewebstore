@@ -2,9 +2,6 @@ name: docker-cicd-workflow
 
 
 on:
-  push:
-    branches:
-      - 'main'
   release:
     types: [edited, released]
 

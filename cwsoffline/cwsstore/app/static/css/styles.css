@@ -20,6 +20,17 @@
     --button-hover: #93b7f8;
 }
 
+[data-theme="dark"] #header {
+    --bg-color: #202124;
+    --text-color: #ffffff;
+    --card-bg: #292a2d;
+    --header-bg: #292a2d;
+    --shadow-color: rgba(255, 255, 255, 0.1);
+    --secondary-text: #9aa0a6;
+    --button-bg: #8ab4f8;
+    --button-hover: #93b7f8;
+}
+
 
 [data-theme="dark"] #searchInput {
     background-color: var(--card-bg);
@@ -83,19 +94,19 @@ header h1 {
     margin: 0 auto;
 }
 
-#searchInput {
+/* #searchInput {
     width: 100%;
     padding: 0.8rem 1rem;
     border: 1px solid #dfe1e5;
     border-radius: 24px;
     font-size: 1rem;
     outline: none;
-}
+} */
 
-#searchInput:focus {
+/* #searchInput:focus {
     box-shadow: 0 1px 6px rgba(32,33,36,.28);
     border-color: rgba(223,225,229,0);
-}
+} */
 
 main {
     /* Add padding to prevent content from going under header */
@@ -190,7 +201,7 @@ main {
     background-color: var(--button-bg);
     color: white;
     text-decoration: none;
-    border-radius: 4px;
+    border-radius: 20px;
     font-weight: 500;
     text-align: center;
     transition: background-color 0.2s ease;
@@ -220,20 +231,6 @@ footer {
     z-index: 100;
 }
 
-.DpcOrc {
-    /* font-size: 1rem;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: 1.5rem;
-    color: var(--gm3-sys-color-on-surface-variant);
-    font-family: "Product Sans", "Google Sans";
-    margin-left: 8px;
-    text-transform: lowercase; */
-
-    position: absolute;
-    left: 20px;
-    top: 20px;
-}
 
 footer p {
     margin: 0;

@@ -26,7 +26,24 @@ def extract_crx_files(src_folder, dest_folder):
                         ext_name = manifest_data.get('action', {}).get('default_title','') if '_' in ext_name else ext_name
                         ext_name = extension_id.split('_')[1] if ext_name == "" else ext_name
                         #print(manifest_data.get('icons', {}).get('128', ''))
-                        image = os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '').lstrip('/')) if manifest_data.get('icons', {}).get('128', '') != "" else os.path.join(dest_path, "icon.png")  
+
+                        try:
+                            icons = manifest_data.get('icons', {})
+                                             
+                            #for s,ico_path in icons:
+                            sorted_keys = sorted(icons.keys(), key=int, reverse=True)
+                            # Iterate from biggest to smallest and find the first existing file
+                            for key in sorted_keys:
+                                image = os.path.join(dest_path, icons[key].lstrip('/'))
+                                break
+                            else:
+                                image = os.path.join(dest_path, "icon.png")
+                        except:
+                            print("No icons found in manifest, using default icon.png")
+                            image = os.path.join(dest_path, "icon.png")
+                            
+                        #image = os.path.join(dest_path, manifest_data.get('icons', {}).get('128', '').lstrip('/')) if manifest_data.get('icons', {}).get('128', '') != "" else os.path.join(dest_path, "icon.png")                        
+
                         print(f"image_path: {image}")
 
                         extension_info = {

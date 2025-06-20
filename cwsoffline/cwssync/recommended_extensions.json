@@ -38,5 +38,17 @@
     {
         "id": "eimadpbcbfnmbkopoojfekhnkhdbieeh",
         "name": "Dark Reader"
+    },
+    {
+        "id": "bjfgambnhccakkhmkepdoekmckoijdlc",
+        "name": "Browser MCP - Automate your browser using VS Code, Cursor, Claude, and more"
+    },
+    {
+        "id": "fhdmpmfccmhbdmlaclcllpfdddfnhbec",
+        "name": "Azure DevOps Wiki Editor"
+    },
+    {
+        "id": "cmkdbmfndkfgebldhnkbfhlneefdaaip",
+        "name": "WhatRuns"
     }
 ]

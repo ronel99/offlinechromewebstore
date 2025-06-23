@@ -1,3 +1,5 @@
+<img src="cwsoffline/cwsstore/app/static/images/favicon.png" alt="cws icon" width="200" height="200"/>
+
 # Offline Chrome Web Store
 
 

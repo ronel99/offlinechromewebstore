@@ -16,8 +16,8 @@
     --header-bg: #292a2d;
     --shadow-color: rgba(255, 255, 255, 0.1);
     --secondary-text: #9aa0a6;
-    --button-bg: #8ab4f8;
-    --button-hover: #93b7f8;
+    --button-bg: #1349a0; /*#8ab4f8;*/
+    --button-hover: #1c4b97; /*#93b7f8;*/
 }
 
 [data-theme="dark"] #header {

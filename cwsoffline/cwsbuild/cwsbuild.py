@@ -64,18 +64,6 @@ def save_extensions_info(extensions_info, output_file):
     with open(output_file, 'w') as json_file:
         json.dump(extensions_info, json_file, indent=4)
 
-def save_extensions_info_as_xml(extensions_info, output_file):
-    root = ET.Element("gupdate", xmlns="http://www.google.com/update2/response", protocol="2.0")
-    
-    for extension in extensions_info:
-        app = ET.SubElement(root, "app", appid=extension['extension_id'])
-        updatecheck = ET.SubElement(app, "updatecheck", 
-                                     codebase=extension['versions'][0]['path_url'], 
-                                     version=extension['versions'][0]['version'])
-    
-    tree = ET.ElementTree(root)
-    with open(output_file, "wb") as xml_file:
-        tree.write(xml_file, encoding="UTF-8", xml_declaration=True)
 
 if __name__ == "__main__":
     artifacts_folder = 'artifacts'
@@ -86,4 +74,3 @@ if __name__ == "__main__":
 
     extensions_info = extract_crx_files(src_folder, dest_folder)
     save_extensions_info(extensions_info, os.path.join(artifacts_folder, output_json_file))
-    save_extensions_info_as_xml(extensions_info, os.path.join(artifacts_folder, output_xml_file))

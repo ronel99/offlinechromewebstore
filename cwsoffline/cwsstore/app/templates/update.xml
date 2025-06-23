@@ -1,0 +1,7 @@
+<gupdate xmlns="http://www.google.com/update2/response" protocol="2.0">
+    {% for extension in extensions %}
+    <app appid="{{ extension.extension_id }}">
+    <updatecheck codebase="{{ request.url_for('read_root') }}{{ extension.versions[0].path_url }}" version="{{ extension.versions[0].version }}"/>
+    </app>
+    {% endfor %}
+</gupdate>

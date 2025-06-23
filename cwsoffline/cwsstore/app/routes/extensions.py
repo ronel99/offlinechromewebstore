@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Request, Depends, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse, Response
 from fastapi.templating import Jinja2Templates
 import os
 import json
@@ -21,13 +21,17 @@ async def serve_extensions_info_xml():
         return FileResponse(xml_file_path, media_type="application/json")
     return JSONResponse(content={"error": "extensions_info.json not found"}, status_code=404)
 
-@router.get("/crx", response_class=FileResponse)
-async def serve_extensions_info_xml():
-    """Serve the extensions_info.xml file."""
-    xml_file_path = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../artifacts/extensions_info.xml"))
-    if os.path.exists(xml_file_path):
-        return FileResponse(xml_file_path, media_type="application/xml")
-    return JSONResponse(content={"error": "extensions_info.xml not found"}, status_code=404)
+@router.get("/crx", response_class=Response)
+async def serve_extensions_info_xml(request: Request):
+    """Serve the update.xml file rendered with Jinja2."""
+    if os.path.exists(EXTENSIONS_FILE):
+        with open(EXTENSIONS_FILE, "r") as file:
+            extensions = json.load(file)
+        xml_content = templates.get_template("update.xml").render(
+            request=request, extensions=extensions
+        )
+        return Response(content=xml_content, media_type="application/xml")
+    return JSONResponse(content={"error": "update.xml not found"}, status_code=404)
 
 @router.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):

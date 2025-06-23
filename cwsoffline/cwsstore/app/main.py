@@ -40,11 +40,3 @@ async def read_root(request: Request):
         "extensions": [],
         "current_year": current_year
     })
-
-@app.get("/crx", response_class=FileResponse)
-async def serve_extensions_info_xml():
-    """Serve the extensions_info.xml file."""
-    xml_file_path = os.path.join("artifacts", "extensions_info.xml")
-    if os.path.exists(xml_file_path):
-        return FileResponse(xml_file_path, media_type="application/xml")
-    return {"error": "extensions_info.xml not found"}

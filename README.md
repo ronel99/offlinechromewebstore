@@ -13,27 +13,22 @@ This enables Chrome Web Store's web presence to be mirrored for seamless use in 
 On the Internet connected system , **cwssync** will:
 * Mirror the Chrome Extensions across platforms (Windows|Linux|Darwin);
 * Mirror recommended/typical extensions from the Chrome Web Store;
-* Mirror the malicious extension list; 
-* Mirror a list of manually specified extensions (artifacts/specified.json); and
+* Mirror the malicious extension list.
 * Optionally, mirror all extensions (--syncall, rather than the default of --sync).
 
-On the non-Internet connected system, **cwsstore**:
-* Implements the updater interface to enable offline updating;
-* Implements the extension API to enable offline extension use;
-* Implements the malicious extension list; 
-* Implements initial support for multiple versions;
-* Supports custom/private extensions (follow the structure of a mirrored extension);
-
 On the non-Internet connected system, **cwsbuild**:
-* Implements ui store assets (images and metadata) from CRX files;
+* Implements UI store assets (images and metadata) from CRX files;
 * Implements the updater interface to enable use of first party extensions.
 
-Possible TODO List:
-* - [ ] Add test cases.
-* - [ ] ExtensionTotal get malicious extensions
-* - [X] crx expand and create json job for cwsstore
-* - [ ] add helm (kubernetes) support
-* - [ ] fix extension container properties alignments
+On the non-Internet connected system, **cwsstore**:
+* Implements the updater interface to enable offline updating.
+* Implements the extension API to enable offline extension use.
+* Implements initial support for multiple versions.
+* Supports custom/private extensions (follow the structure of a mirrored extension).
+* Impliments `/crx` like https://clients2.google.com/service/update2/crx
+* Impliments `/json` route for view raw properties of extenions and api scripting capabilities.
+
+
 
 ## Requirements
 * Docker (ideally with docker-compose for simplicity)
@@ -44,7 +39,7 @@ There are three components, **cwssync** which mirrors the content on an Internet
 
 On the Internet connected system:
 
-1. Acquire/mirror the Docker containers (cwssync/cwsbuild/cwsstore). 
+1. Acquire/mirror the Docker containers (cwssync / cwsbuild / cwsstore). 
 
     `docker-compose pull`
     
@@ -53,28 +48,32 @@ On the Internet connected system:
     * Run cwssync service and ensure the artifacts are generated.
     * Wait for the sync to complete. You should see 'Sync completed' and that it is sleeping when the artifacts have finished downloading.
 
-    `docker-compose up cwssync`
+    ``` bash
+    docker compose up cwssync
+    ```
 
 3. Copy the artifacts to the non-Internet connected system.
 
 On the non-Internet connected system:
+1. Run the **cwsbuild** service to build assets
 
-1. On the non-Internet connected system, ensure the following DNS addresses are pointed toward the cwsstore service.
-    * clients2.google.com        
+    ``` bash
+    docker compose up cwsbuild
+    ```
 
-    This may be achieved using a corporate DNS server, or by modifying a client's host file.
+2. Run the cwsstore service, ensuring the artifacts are accessible to the service.
 
-2. Run the cwsstore service, ensuring the artifacts are accessible to the service. It needs to listen on port 443.
+    ``` bash
+    docker compose up cwsstore -d
+    ```
+3. Configure chrome policy to add **_http://cws_intranet_domain/*_** as **ExtensionInstallSources**, see [Configure GPO](#configure-gpo) section
+4. Open Chrome, hopefully you can magically install extensions.
 
-    `docker-compose up cwsstore`
-
-3. Open Chrome, hopefully you can magically install extensions. The Help > Developer Tools > Network should tell you what is going on.
-
-#### Run with docker-compose
+#### Run with docker compose
 ``` bash
-docker-compose build
-docker-compose run cwssync
-docker-compose up -d cwsbuild cwsstore
+docker compose build
+docker compose run cwssync
+docker compose up -d cwsbuild cwsstore
 ```
 
 #### How to build
@@ -88,7 +87,7 @@ docker build -t cwsstore -f cwsoffline/cwsstore/Dockerfile ./cwsoffline/cwsstore
 ```
 
 #### How to run with docker
-```bash
+``` bash
 # Run the container
 docker run -it -v $(pwd)/artifacts:/app/artifacts cwssync
 
@@ -112,3 +111,15 @@ sudo rm -rf artifacts
 - *See [ExtensionInstallAllowlist](https://chromeenterprise.google/policies/?policy=ExtensionInstallAllowlist) chrome policy to configure allowlist for enhanced security*
 - *See [ExtensionInstallSources](https://chromeenterprise.google/policies/#ExtensionInstallSources) chrome policy to configure source for custom offline store url*
 - *See [ExtensionInstallForcelist](https://chromeenterprise.google/policies/#ExtensionInstallForcelist) to force install extenions from `https://cws_domain/crx`*
+
+---
+
+Possible Implements TODO List:
+* - [ ] Add test cases.
+* - [ ] ExtensionTotal get malicious extensions
+* - [X] crx expand and create json job for cwsstore
+* - [ ] add helm (kubernetes) support
+* - [ ] fix extension container properties alignments
+* - [ ] list of manually specified extensions (artifacts/specified.json)
+* - [ ] implements malicious extension list
+* - [ ] check possibility to implement configure DNS in a air gapped env to https://clients2.google.com/service/update2/crx and https://chromewebstore.google.com when chrome uses HSTS.

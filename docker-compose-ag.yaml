@@ -1,14 +1,4 @@
 services:
-  cwssync:
-    build:
-      context: .
-      dockerfile: cwsoffline/cwssync/Dockerfile
-    image: cwssync
-    volumes:
-      - ./artifacts:/app/artifacts
-    stdin_open: true
-    tty: true
-
   cwsbuild:
     build:
       context: .
